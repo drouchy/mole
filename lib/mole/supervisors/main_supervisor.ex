@@ -7,8 +7,7 @@ defmodule Mole.Supervisors.MainSupervisor do
 
   def init([]) do
     children = [
-      # Define workers and child supervisors to be supervised
-      # worker(Mole.Worker, [arg1, arg2, arg3])
+      worker(Mole.Workers.ConfigWorker, [ Mole.Config.config_file ])
     ]
 
     # See http://elixir-lang.org/docs/stable/Supervisor.Behaviour.html

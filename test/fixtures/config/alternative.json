@@ -1,0 +1,34 @@
+{
+  "global" : {
+    "user" : "drouchy",
+    "ssh_dir" : "/var/tmp/maule_ssh"
+  },
+  "environments" : [
+    {
+      "name" : "alternative_1",
+      "gateway" : "host_altervative_1.example.com",
+      "services" : [
+        {
+          "name" : "log_service",
+          "hosts" : ["log1"],
+          "logs" : ["/var/log/logstash/agent.log"]
+        },
+        {
+          "name" : "db",
+          "hosts" : ["db1"]
+        }
+      ]
+    },
+    {
+      "name" : "alternative_2",
+      "gateway" : "host_altervative_2.example.com",
+      "services" : [
+        {
+          "name" : "log_service",
+          "hosts" : ["log1", "log2"],
+          "logs" : ["/var/log/logstash/agent.log"]
+        }
+      ]
+    }
+  ]
+}
