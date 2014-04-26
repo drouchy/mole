@@ -13,7 +13,7 @@ defmodule CommandRunnerTest do
     run("ls -l")
 
     receive do
-      { pid, { :data , data } } -> assert data != nil
+      { _pid, { :data , data } } -> assert data != nil
     after
       5 -> raise "I guess we are not going to receive a message from the port"
     end
