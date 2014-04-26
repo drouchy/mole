@@ -20,6 +20,12 @@ defmodule ConfigWorkerTest do
     assert config["global"] == [{"user", "drouchy"}, {"ssh_dir", "/var/tmp/mole_ssh"}]
   end
 
+  # handle_call/3 { :config }
+  test_with_mock "reads the config from the config", Mole.Config,
+  [ environments: fn("CONFIG") -> environments end ] do
+    { :reply, "CONFIG", "CONFIG" } = handle_call(:config, self, "CONFIG")
+  end
+
   # handle_call/3 { :environments }
   test_with_mock "reads the environments from the config", Mole.Config,
   [ environments: fn("CONFIG") -> environments end ] do

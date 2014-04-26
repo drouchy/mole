@@ -11,6 +11,10 @@ defmodule Mole.Workers.ConfigWorker do
     { :ok, load(config_file_name) }
   end
 
+  def handle_call(:config, _from, config) do
+    { :reply, config, config }
+  end
+
   def handle_call(:environments, _from, config) do
     { :reply, environments(config), config }
   end

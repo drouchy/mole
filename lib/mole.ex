@@ -6,4 +6,6 @@ defmodule Mole do
   def start(_type, _args) do
     Mole.Supervisors.MainSupervisor.start_link
   end
+
+  def config, do: :gen_server.call(:mole_config, :config)
 end
