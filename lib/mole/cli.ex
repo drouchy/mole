@@ -1,6 +1,7 @@
 defmodule Mole.Cli do
-  def main(_args) do
-    execute_command("environments")
+  def main(args) do
+    parsed_args = Mole.OptionParser.parse(args)
+    execute_command(parsed_args[:command])
   end
 
   defp execute_command("environments"), do: Mole.Commands.Environments.execute([])
