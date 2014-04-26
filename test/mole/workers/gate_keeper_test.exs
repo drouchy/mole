@@ -41,6 +41,12 @@ defmodule GateKeeperTest do
     assert connection == expected_connection
   end
 
+  test_with_mock "it returns the original port if the connection is alreay open", Mole.OsCommands.Runner, [run: mock_run_command] do
+    options = [port: 2015, option_1: true, connections: [%{host: "host1.example.com", environment: "staging", port: 22, local_port: 2001}]]
+
+    {:reply, {:ok, 2001}, options} = handle_call({:open_gate, destination}, self, options)
+  end
+
   defp config_file,       do: "test/fixtures/config/regular.json"
   defp destination,       do: [environment: "staging", service: "log_service", host: "host1.example.com", gateway: "gateway.example.com", port: 22]
   defp mock_run_command,  do: fn(_) -> "pid" end

@@ -14,12 +14,12 @@ defmodule Mole.Workers.GateKeeper do
   end
 
   def handle_call({:open_gate, destination}, _from, state) do
-    new_state = state
-      |> open_gate(destination)
-      |> register_connection(destination)
-      |> increase_port
+    {port, new_state } = case opened_connection(state, destination) do
+      nil        -> open_new_connection(state, destination)
+      connection -> reuse_connection(state, connection)
+    end
 
-    {:reply, {:ok, state[:port]}, new_state}
+    {:reply, {:ok, port}, new_state}
   end
 
   def handle_cast(_msg, _state) do
@@ -69,4 +69,25 @@ defmodule Mole.Workers.GateKeeper do
   end
 
   defp config, do: Mole.config["global"]
+
+  defp opened_connection(state, destination) do
+    Enum.find(state[:connections], fn(connection) -> equal?(destination, connection) end)
+  end
+
+  defp equal?(destination, connection) do
+    destination[:environment] == connection[:environment] && destination[:host] == connection[:host] && destination[:port] == connection[:port]
+  end
+
+  defp open_new_connection(state, destination) do
+    new_state = state
+      |> open_gate(destination)
+      |> register_connection(destination)
+      |> increase_port
+
+    { state[:port], new_state }
+  end
+
+  defp reuse_connection(state, connection) do
+    { connection[:local_port], state }
+  end
 end
