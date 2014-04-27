@@ -15,7 +15,7 @@ defmodule CommandRunnerTest do
     receive do
       { _pid, { :data , data } } -> assert data != nil
     after
-      5 -> raise "I guess we are not going to receive a message from the port"
+      400 -> raise "I guess we are not going to receive a message from the port"
     end
   end
 end
