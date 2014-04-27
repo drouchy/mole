@@ -21,18 +21,18 @@ defmodule ConfigTest do
   end
 
   # config_file
-  test "by default gives the .mole.json in the home directory" do
+  test "by default gives the .mole/config.json in the home directory" do
     file_name = config_file
 
-    assert file_name == "#{System.get_env("HOME")}/.mole.json"
+    assert file_name == "#{System.get_env("HOME")}/.mole/config.json"
   end
 
-  test "by default gives the .mole.json in the home directory if the env is empty" do
+  test "by default gives the .mole/config.json in the home directory if the env is empty" do
     System.put_env("MOLE_CONFIG_FILE", "")
 
     file_name = config_file
 
-    assert file_name == "#{System.get_env("HOME")}/.mole.json"
+    assert file_name == "#{System.get_env("HOME")}/.mole/config.json"
   end
 
   test "gives the config file set via env variable" do
