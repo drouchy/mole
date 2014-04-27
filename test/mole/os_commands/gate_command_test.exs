@@ -8,7 +8,7 @@ defmodule GateCommandTest do
 
     command = open_gate_command(details)
 
-    assert command == "ssh #{gateway} -L 2222:#{to}:22 -N"
+    assert command == "ssh #{options} #{gateway} -L 2222:#{to}:22 -t 2>/dev/null"
   end
 
   test "can give an option for the identity" do
@@ -16,7 +16,7 @@ defmodule GateCommandTest do
 
     command = open_gate_command(details)
 
-    assert command == "ssh #{gateway} -i /var/tmp/ssh/id_rsa -L 2222:#{to}:22 -N"
+    assert command == "ssh #{options} #{gateway} -i /var/tmp/ssh/id_rsa -L 2222:#{to}:22 -t 2>/dev/null"
   end
 
   test "does not include the indentity if present but nil" do
@@ -24,7 +24,7 @@ defmodule GateCommandTest do
 
     command = open_gate_command(details)
 
-    assert command == "ssh #{gateway} -L 2222:#{to}:22 -N"
+    assert command == "ssh #{options} #{gateway} -L 2222:#{to}:22 -t 2>/dev/null"
   end
 
   test "can give a user as an option" do
@@ -32,7 +32,7 @@ defmodule GateCommandTest do
 
     command = open_gate_command(details)
 
-    assert command == "ssh testUser@#{gateway} -L 2222:#{to}:22 -N"
+    assert command == "ssh #{options} testUser@#{gateway} -L 2222:#{to}:22 -t 2>/dev/null"
   end
 
   test "does not include the user if present but nil" do
@@ -40,9 +40,11 @@ defmodule GateCommandTest do
 
     command = open_gate_command(details)
 
-    assert command == "ssh #{gateway} -L 2222:#{to}:22 -N"
+    assert command == "ssh #{options} #{gateway} -L 2222:#{to}:22 -t 2>/dev/null"
   end
 
   defp gateway, do: "gateway.example.com"
   defp to,   do: "to.example.com"
+
+  defp options, do: "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 end
