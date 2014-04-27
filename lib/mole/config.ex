@@ -25,8 +25,8 @@ defmodule Mole.Config do
     Enum.find(services(config, environment_name), fn(s) -> s["name"] == service_name end)
   end
 
-  defp config_file(nil),      do: Path.expand("~/.mole.json")
-  defp config_file(""),       do: Path.expand("~/.mole.json")
+  defp config_file(nil),      do: Path.expand("~/.mole/config.json")
+  defp config_file(""),       do: Path.expand("~/.mole/config.json")
   defp config_file(filename), do: filename
 
   defp decode_content(content) do
