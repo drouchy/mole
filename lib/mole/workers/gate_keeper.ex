@@ -47,7 +47,7 @@ defmodule Mole.Workers.GateKeeper do
 
   defp register_connection({ state, pid }, destination) do
     connection = connection_description(state, destination, pid)
-    Keyword.put(state, :connections, state[:connections] ++ [connection])
+    Keyword.put(state, :connections, [connection|state[:connections]])
   end
 
   defp connection_description(state, destination, pid) do
