@@ -7,8 +7,9 @@ defmodule Mole.Supervisors.MainSupervisor do
 
   def init([]) do
     children = [
-      worker(Mole.Workers.GateKeeper,   []),
-      worker(Mole.Workers.ConfigWorker, [ Mole.Config.config_file ])
+      worker(Mole.Workers.ConsoleWorker,  []),
+      worker(Mole.Workers.GateKeeper,     []),
+      worker(Mole.Workers.ConfigWorker,   [ Mole.Config.config_file ])
     ]
 
     # See http://elixir-lang.org/docs/stable/Supervisor.Behaviour.html
