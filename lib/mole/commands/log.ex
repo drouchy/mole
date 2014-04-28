@@ -3,5 +3,54 @@ defmodule Mole.Commands.Log do
 
   def execute(args) do
     IO.inspect args
+    service = :gen_server.call :mole_config, {:service, args[:environment], args[:service]}
+    gateway = "bastion1.shutl.com"
+    destinations = generate_destinations(Map.put(args, :gateway, gateway), service["hosts"], [])
+
+    tunneled = Enum.map(destinations, &open_gate/1)
+
+    receive do
+      data -> IO.inspect data
+    after
+      2000 -> IO.inspect :timeout
+    end
+
+    tunneled = Enum.with_index(tunneled)
+      |> Enum.map(fn({destination,index}) -> Map.put(destination, :color, Mole.ANSI.color(index)) end)
+      |> Enum.map(fn(destination) -> Map.put(destination, :log, service["logs"]) end)
+    IO.inspect tunneled
+
+    Enum.each(tunneled, &launch_connection/1)
+
+    loop_forever
+  end
+
+  defp generate_destinations(_args, [], transformations), do: transformations
+  defp generate_destinations(args, [host|tail], transformations) do
+    destination = %{environment: args[:environment], service: args[:service], host: host, port: 22, gateway: args[:gateway]}
+    generate_destinations(args, tail, [destination|transformations])
+  end
+
+  defp open_gate(destination) do
+    {:ok, port} = :gen_server.call :mole_gate_keeper, {:open_gate, destination}
+    destination
+      |> Map.put(:local_port, port)
+      |> Map.put(:local_host, "localhost")
+  end
+
+  defp launch_connection(destination) do
+    command = "tail -f #{destination[:log]}\n"
+    :gen_server.call :mole_ssh, {:execute, %{host: destination[:local_host], port: destination[:local_port]}, command, fn(data) -> callback(destination, data) end}
+  end
+
+  defp callback(destination, []), do: :done
+  defp callback(destination, [line|tail]) do
+    :gen_server.cast :mole_console, {:write, %{color: destination[:color], text: destination[:host]}, line }
+  end
+
+  defp loop_forever do
+    receive do
+      _ -> loop_forever
+    end
   end
 end
