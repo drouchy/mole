@@ -17,7 +17,7 @@ defmodule ConfigWorkerTest do
   test "returns the config" do
     { :ok, config } = init(config_file)
 
-    assert config["global"] == [{"user", "drouchy"}, {"ssh_dir", "/var/tmp/mole_ssh"}]
+    assert config["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
   end
 
   # handle_call/3 { :config }
@@ -52,5 +52,5 @@ defmodule ConfigWorkerTest do
   def config_file,       do: "test/fixtures/config/regular.json"
   def alternative_file,  do: "test/fixtures/config/alternative.json"
   def environments,      do: ["env1", "env2"]
-  def service,           do: {name: "service_1"}
+  def service,           do: %{name: "service_1"}
 end

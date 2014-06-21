@@ -4,7 +4,7 @@ defmodule Mole.Mixfile do
   def project do
     [app: :mole,
      version: "0.0.1",
-     elixir: "~> 0.13.0",
+     elixir: "~> 0.14.0",
      escript_main_module: Mole.Cli,
      escript_path: "_build/mole",
      elixirc_options: options(Mix.env),
@@ -24,14 +24,13 @@ defmodule Mole.Mixfile do
 
   defp deps(:test) do
     [
-      { :mock,    github: "jjh42/mock"   },
-      { :webtest, github: "d0rc/webtest" }
+      { :mock,      github: "jjh42/mock"      }
     ] ++ deps(:default)
   end
 
   defp deps(_) do
     [
-      { :jsex,    github: "talentdeficit/jsex" }
+      { :jazz,    github: "meh/jazz" }
     ]
   end
 end

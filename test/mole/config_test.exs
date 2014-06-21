@@ -3,21 +3,23 @@ defmodule ConfigTest do
 
   import Mole.Config
 
-  teardown _context do
-    System.put_env("MOLE_CONFIG_FILE", "")
-    :ok
+  setup do
+    on_exit fn ->
+      System.put_env("MOLE_CONFIG_FILE", "")
+      :ok
+    end
   end
 
   # load/1
   test "loads a config file" do
-    assert regular_config["global"] == [{"user", "drouchy"}, {"ssh_dir", "/var/tmp/mole_ssh"}]
+    assert regular_config["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
   end
 
   # load
   test "loads the default config file" do
     System.put_env("MOLE_CONFIG_FILE", regular_file)
 
-    assert load["global"] == [{"user", "drouchy"}, {"ssh_dir", "/var/tmp/mole_ssh"}]
+    assert load["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
   end
 
   # config_file
@@ -68,7 +70,7 @@ defmodule ConfigTest do
   test "gives a specific service on a specific environment" do
     service = service(regular_config, "staging", "db")
 
-    assert service == [{"name", "db"}, {"hosts", ["db1"]}]
+    assert service == %{ "name" => "db", "hosts" => ["db1"] }
   end
 
   defp regular_file,   do: "test/fixtures/config/regular.json"

@@ -1,5 +1,5 @@
 defmodule Mole.Workers.ConsoleWorker do
-  use GenServer.Behaviour
+  use GenServer
 
   import Mole.ConsoleWriter
 

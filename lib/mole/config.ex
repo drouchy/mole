@@ -1,4 +1,5 @@
 defmodule Mole.Config do
+  use Jazz
 
   def load(), do: load config_file
   def load(file_name) do
@@ -30,7 +31,7 @@ defmodule Mole.Config do
   defp config_file(filename), do: filename
 
   defp decode_content(content) do
-    { :ok, config }  = JSEX.decode content
+    { :ok, config }  = JSON.decode content
     config
   end
 

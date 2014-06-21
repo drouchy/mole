@@ -1,5 +1,5 @@
 defmodule Mole.Workers.ConfigWorker do
-  use GenServer.Behaviour
+  use GenServer
 
   import Mole.Config
 

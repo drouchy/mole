@@ -11,7 +11,7 @@ defmodule NamesRendererTest do
   end
 
   test "generate one line per entry, indexed by 2 spaces" do
-    list = [[{"name", "line 1"}], [{"name", "line 2"}]]
+    list = [%{"name" => "line 1"}, %{"name" => "line 2"}]
 
     rendered = render(list)
 

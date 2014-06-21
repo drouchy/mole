@@ -1,5 +1,5 @@
 defmodule Mole.Workers.SshConnectionWorker do
-  use GenServer.Behaviour
+  use GenServer
 
   import Mole.SshConnection
 

@@ -1,5 +1,5 @@
 defmodule Mole.Workers.GateKeeper do
-  use GenServer.Behaviour
+  use GenServer
 
   import Mole.OsCommands.Runner
   import Mole.OsCommands.GateCommand
