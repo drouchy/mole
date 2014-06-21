@@ -15,12 +15,12 @@ defmodule Mole.SshConnection do
   end
 
   def execute_command({connection, channel}, command, callback) do
-    status = :ssh_connection.shell(connection, channel)
+    :ssh_connection.shell(connection, channel)
     :ok = :ssh_connection.send(connection, channel, command, 2000)
     ssh_loop(connection, channel, callback)
   end
 
-  defp ssh_loop(connection, channel, callback) do
+  defp ssh_loop(_connection, channel, callback) do
     receive do
       {:ssh_cm, connection, {:data, _channel, 0, data}} ->
         callback.(String.split(String.strip(data), "\n"))

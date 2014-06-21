@@ -11,7 +11,7 @@ defmodule Mole.Workers.SshConnectionWorker do
     {:ok, []}
   end
 
-  def handle_call({:execute, destination, command, callback}, from, state) do
+  def handle_call({:execute, destination, command, callback}, _from, state) do
     host = destination[:host]
     port = destination[:port]
     {connection, channel} = connect(to_char_list(host), port, options)
@@ -35,6 +35,4 @@ defmodule Mole.Workers.SshConnectionWorker do
   defp options do
     [ silently_accept_hosts: true, user_dir: '/Users/drouchy/.ssh/shutl', user: 'drouth' ]
   end
-
-  defp config, do: Mole.config["global"]
 end

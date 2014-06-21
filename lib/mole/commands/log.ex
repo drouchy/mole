@@ -43,7 +43,7 @@ defmodule Mole.Commands.Log do
     :gen_server.call :mole_ssh, {:execute, %{host: destination[:local_host], port: destination[:local_port]}, command, fn(data) -> callback(destination, data) end}
   end
 
-  defp callback(destination, []), do: :done
+  defp callback(_, []), do: :done
   defp callback(destination, [line|tail]) do
     :gen_server.cast :mole_console, {:write, %{color: destination[:color], text: destination[:host]}, line }
     callback(destination, tail)

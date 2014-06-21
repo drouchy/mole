@@ -28,7 +28,7 @@ defmodule Mole.Workers.GateKeeper do
   def handle_info(_msg, _state) do
   end
 
-  def terminate(_reason,  state) do
+  def terminate(_reason,  _state) do
     IO.puts "terminate"
   end
 

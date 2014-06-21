@@ -7,6 +7,6 @@ defmodule Mole.ANSI do
     "#{ansi_color(color)}#{text}#{IO.ANSI.reset}"
   end
 
-  defp ansi_color(color), do: color = apply(IO.ANSI, binary_to_atom(color), [])
+  defp ansi_color(color), do: apply(IO.ANSI, String.to_atom(color), [])
   defp colors,            do: {"blue", "red", "green", "yellow", "magenta", "cyan"}
 end
