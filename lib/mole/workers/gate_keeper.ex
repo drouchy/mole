@@ -30,7 +30,6 @@ defmodule Mole.Workers.GateKeeper do
 
   def terminate(_reason,  state) do
     IO.puts "terminate"
-    IO.inspect state
   end
 
   def code_change(_old_vsn, _state, _extra) do

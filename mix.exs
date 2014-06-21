@@ -5,8 +5,7 @@ defmodule Mole.Mixfile do
     [app: :mole,
      version: "0.0.1",
      elixir: "~> 0.14.0",
-     escript_main_module: Mole.Cli,
-     escript_path: "_build/mole",
+     escript: escript,
      elixirc_options: options(Mix.env),
      deps: deps(Mix.env)]
   end
@@ -19,6 +18,15 @@ defmodule Mole.Mixfile do
     [
       applications: [],
       mod: { Mole, [] }
+    ]
+  end
+
+  def escript do
+    [
+      main_module: Mole.Cli,
+      path: "_build/mole",
+      embed_elixir: true,
+      embed_extra_apps: [:mix]
     ]
   end
 

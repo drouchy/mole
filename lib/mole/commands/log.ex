@@ -2,9 +2,10 @@ defmodule Mole.Commands.Log do
   @behaviour Mole.Command
 
   def execute(args) do
-    IO.inspect args
-    service = :gen_server.call :mole_config, {:service, args[:environment], args[:service]}
-    gateway = "bastion1.shutl.com"
+    service     = :gen_server.call :mole_config, {:service, args[:environment], args[:service]}
+    environment = :gen_server.call :mole_config, {:environment, args[:environment]}
+    gateway = environment["gateway"]
+
     destinations = generate_destinations(Map.put(args, :gateway, gateway), service["hosts"], [])
 
     tunneled = Enum.map(destinations, &open_gate/1)
@@ -12,13 +13,12 @@ defmodule Mole.Commands.Log do
     receive do
       data -> IO.inspect data
     after
-      2000 -> IO.inspect :timeout
+      2000 -> :tunnel_should_be_launched
     end
 
     tunneled = Enum.with_index(tunneled)
       |> Enum.map(fn({destination,index}) -> Map.put(destination, :color, Mole.ANSI.color(index)) end)
       |> Enum.map(fn(destination) -> Map.put(destination, :log, service["logs"]) end)
-    IO.inspect tunneled
 
     Enum.each(tunneled, &launch_connection/1)
 
@@ -46,6 +46,7 @@ defmodule Mole.Commands.Log do
   defp callback(destination, []), do: :done
   defp callback(destination, [line|tail]) do
     :gen_server.cast :mole_console, {:write, %{color: destination[:color], text: destination[:host]}, line }
+    callback(destination, tail)
   end
 
   defp loop_forever do

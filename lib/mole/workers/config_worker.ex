@@ -19,6 +19,10 @@ defmodule Mole.Workers.ConfigWorker do
     { :reply, environments(config), config }
   end
 
+  def handle_call({:environment, environment_name}, _from, config) do
+    { :reply, environment(config, environment_name), config }
+  end
+
   def handle_call({:service, environment_name, service_name}, _from, config) do
     { :reply, service(config, environment_name, service_name), config }
   end

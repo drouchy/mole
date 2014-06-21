@@ -32,6 +32,14 @@ defmodule ConfigWorkerTest do
     { :reply, environments, "CONFIG" } = handle_call(:environments, self, "CONFIG")
   end
 
+  # handle_call/3 { :environments, environment_name }
+  test_with_mock "reads one environment from the config", Mole.Config,
+  [ environment: fn("CONFIG", "staging") -> environment end ] do
+    { :reply, env, "CONFIG" } = handle_call({:environment, "staging"}, self, "CONFIG")
+
+    assert env == environment
+  end
+
   # handle_call/3 { :service, environment_name, service_name }
   test_with_mock "find the service in the config file", Mole.Config,
   [ service: fn("CONFIG", "staging", "service_name") -> service end] do
@@ -52,5 +60,6 @@ defmodule ConfigWorkerTest do
   def config_file,       do: "test/fixtures/config/regular.json"
   def alternative_file,  do: "test/fixtures/config/alternative.json"
   def environments,      do: ["env1", "env2"]
+  def environment,       do: %{name: "env_name"}
   def service,           do: %{name: "service_1"}
 end
