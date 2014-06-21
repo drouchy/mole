@@ -8,6 +8,7 @@ defmodule Mole.Supervisors.MainSupervisor do
   def init([]) do
     children = [
       worker(Mole.Workers.ConsoleWorker,  []),
+      worker(Mole.Workers.LoggerWorker,   []),
       worker(Mole.Workers.GateKeeper,     []),
       worker(Mole.Workers.SshConnectionWorker,     []),
       worker(Mole.Workers.ConfigWorker,   [ Mole.Config.config_file ])

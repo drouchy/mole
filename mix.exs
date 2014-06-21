@@ -27,7 +27,7 @@ defmodule Mole.Mixfile do
   end
 
   defp lager_level(:prod) do
-    :info
+    :error
   end
 
   def src_paths(:test) do
