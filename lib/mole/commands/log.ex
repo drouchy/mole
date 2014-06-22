@@ -10,11 +10,7 @@ defmodule Mole.Commands.Log do
 
     tunneled = Enum.map(destinations, &open_gate/1)
 
-    receive do
-      data -> IO.inspect data
-    after
-      2000 -> :tunnel_should_be_launched
-    end
+    Mole.Loading.load_for("Connecting", 2000)
 
     tunneled = Enum.with_index(tunneled)
       |> Enum.map(fn({destination,index}) -> Map.put(destination, :color, Mole.ANSI.color(index)) end)
