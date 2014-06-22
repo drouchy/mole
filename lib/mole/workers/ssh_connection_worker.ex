@@ -33,6 +33,8 @@ defmodule Mole.Workers.SshConnectionWorker do
   end
 
   defp options do
-    [ silently_accept_hosts: true, user_dir: '/Users/drouchy/.ssh/shutl', user: 'drouth' ]
+    [ silently_accept_hosts: true, user_dir: to_char_list(config["ssh_dir"]), user: to_char_list(config["user"]) ]
   end
+
+  defp config, do: Mole.config["global"]
 end
