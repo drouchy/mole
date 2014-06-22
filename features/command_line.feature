@@ -15,3 +15,8 @@ Feature: Command line
     When I run mole with an invalid command
     Then the exit status should be 0
     And the output should contain the usage test
+
+  Scenario: help command
+    When I run mole with 'help'
+    Then the exit status should be 0
+    And the output should contain the usage test

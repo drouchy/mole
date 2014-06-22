@@ -10,6 +10,10 @@ When(/^I run mole with 'environments'$/) do
   step("I run `#{command} environments`")
 end
 
+When(/^I run mole with 'help'$/) do
+  step("I run `#{command} help`")
+end
+
 Then(/^the output should contain$/) do |string|
   step("the output should contain \"#{string}\"")
 end
