@@ -1,9 +1,8 @@
 defmodule Mole.OptionParser do
 
   def parse(args) do
-    { arguments, [command], _unparsed} = OptionParser.parse(args, aliases: aliases)
-    command_map = argument_to_map(arguments, %{})
-    Map.put(command_map, :command, command)
+    { arguments, command, _unparsed} = OptionParser.parse(args, aliases: aliases)
+    convert_command_args(command, arguments)
   end
 
   defp argument_to_map([], map), do: map
@@ -13,4 +12,10 @@ defmodule Mole.OptionParser do
   end
 
   defp aliases, do: [s: :service, e: :environment]
+
+  defp convert_command_args([], arguments), do:  convert_command_args([:none], arguments)
+  defp convert_command_args([command], arguments) do
+    command_map = argument_to_map(arguments, %{})
+    Map.put(command_map, :command, command)
+  end
 end

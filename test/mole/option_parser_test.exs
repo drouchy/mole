@@ -24,4 +24,15 @@ defmodule OptionParserTest do
     args = ["log", "-e", "production", "--service", "service_1"]
     assert parse(args) == %{command: "log", service: "service_1", environment: "production"}
   end
+
+  test "the command is :none when the args does not contain any command" do
+    args = ["--environment", "production", "-s", "service_1"]
+
+    assert parse(args) == %{command: :none, service: "service_1", environment: "production"}
+  end
+
+  test "the command is :none when the args are empty" do
+    assert parse([]) == %{command: :none}
+  end
+
 end

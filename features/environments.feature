@@ -4,12 +4,12 @@ Feature: Environments
   So I can quickly execute commands
 
   Scenario: Listing environment
-  Given I have a regular config file
-  When I run mole with 'environments'
-  Then the exit status should be 0
-  And the output should contain
-  """
-    staging
-    production
+    Given I have a regular config file
+    When I run mole with 'environments'
+    Then the exit status should be 0
+    And the output should contain
+    """
+      staging
+      production
 
-  """
+    """
