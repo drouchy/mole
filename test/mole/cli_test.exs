@@ -2,6 +2,13 @@ defmodule CliTest do
   use ExUnit.Case
   import Mock
 
+  setup do
+    System.put_env("MOLE_CONFIG_FILE", "test/fixtures/config/regular.json")
+    on_exit fn ->
+      System.put_env("MOLE_CONFIG_FILE", "")
+    end
+  end
+
   test_with_mock "launch the environments command", Mole.Commands.Environments, [execute: fn(_)->end] do
     args = ["environments"]
 

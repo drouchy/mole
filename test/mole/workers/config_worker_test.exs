@@ -20,6 +20,11 @@ defmodule ConfigWorkerTest do
     assert config["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
   end
 
+  test_with_mock "does not crash if the config is invalid to give a chance to the app", Mole.Config,
+  [load: fn(_) -> {:error, :noent} end] do
+    { :ok, :invalid } = init(config_file)
+  end
+
   # handle_call/3 { :config }
   test_with_mock "reads the config from the config", Mole.Config,
   [ environments: fn("CONFIG") -> environments end ] do

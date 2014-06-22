@@ -3,7 +3,8 @@ defmodule Mole.Config do
 
   def load(), do: load config_file
   def load(file_name) do
-    read_config_file(file_name) |> decode_content
+    File.read(file_name)
+    |> decode_content
   end
 
   def config_file do
@@ -30,13 +31,11 @@ defmodule Mole.Config do
   defp config_file(""),       do: Path.expand("~/.mole/config.json")
   defp config_file(filename), do: filename
 
-  defp decode_content(content) do
-    { :ok, config }  = JSON.decode content
-    config
-  end
-
-  defp read_config_file(file_name) do
-    { :ok, content } = File.read(file_name)
-    content
+  defp decode_content({:error, :enoent}), do:  {:error, :enoent}
+  defp decode_content({ :ok, content})    do
+    case JSON.decode content do
+      {:ok, json}           -> {:ok, json}
+      {:error, :invalid, _} -> {:error, :invalid}
+    end
   end
 end

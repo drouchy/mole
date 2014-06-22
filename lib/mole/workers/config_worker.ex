@@ -8,7 +8,10 @@ defmodule Mole.Workers.ConfigWorker do
   end
 
   def init(config_file_name) do
-    { :ok, load(config_file_name) }
+    case load(config_file_name) do
+      { :ok, config } -> { :ok, config}
+      { :error , _  } -> { :ok, :invalid  }
+    end
   end
 
   def handle_call(:config, _from, config) do
@@ -28,7 +31,7 @@ defmodule Mole.Workers.ConfigWorker do
   end
 
   def handle_call({:reload, config_file_name}, _from, _config) do
-    new_config = load(config_file_name)
+    { :ok, new_config } = load(config_file_name)
     { :reply, :reloaded, new_config }
   end
 

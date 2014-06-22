@@ -15,11 +15,21 @@ defmodule ConfigTest do
     assert regular_config["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
   end
 
+  test "errors when the file does no exists" do
+    { :error, :enoent } = load "/does/not/exist"
+  end
+
+  test "errors when the file is no valid json" do
+    { :error, :invalid } = load malformed_file
+  end
+
   # load
   test "loads the default config file" do
     System.put_env("MOLE_CONFIG_FILE", regular_file)
 
-    assert load["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
+    { :ok, config } = load
+
+    assert config["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
   end
 
   # config_file
@@ -74,7 +84,12 @@ defmodule ConfigTest do
   end
 
   defp regular_file,   do: "test/fixtures/config/regular.json"
-  defp regular_config, do: load regular_file
+  defp malformed_file, do: "test/fixtures/config/malformed.json"
+
+  defp regular_config  do
+    { :ok, config } = load regular_file
+    config
+  end
 
   defp names(enum) do
     Enum.map enum, fn(e) -> e["name"] end
