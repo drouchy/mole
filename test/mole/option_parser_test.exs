@@ -22,7 +22,20 @@ defmodule OptionParserTest do
 
   test "parses the log command with the environment aliases" do
     args = ["log", "-e", "production", "--service", "service_1"]
+
     assert parse(args) == %{command: "log", service: "service_1", environment: "production"}
+  end
+
+  test "parses the log command with the services" do
+    args = ["log", "--environment", "production", "--services", "service_1,service_2"]
+
+    assert parse(args) == %{command: "log", services: "service_1,service_2", environment: "production"}
+  end
+
+  test "parses the log command with the services alias" do
+    args = ["log", "--environment", "production", "-S", "service_1,service_2"]
+
+    assert parse(args) == %{command: "log", services: "service_1,service_2", environment: "production"}
   end
 
   test "the command is :none when the args does not contain any command" do

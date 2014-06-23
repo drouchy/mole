@@ -11,7 +11,7 @@ defmodule Mole.OptionParser do
     argument_to_map(rest, new_map)
   end
 
-  defp aliases, do: [s: :service, e: :environment]
+  defp aliases, do: [e: :environment, s: :service, S: :services]
 
   defp convert_command_args([], arguments), do:  convert_command_args([:none], arguments)
   defp convert_command_args([command], arguments) do
