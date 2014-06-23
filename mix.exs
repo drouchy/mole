@@ -4,7 +4,7 @@ defmodule Mole.Mixfile do
   def project do
     [
       app: :mole,
-      version: "0.0.1",
+      version: "0.0.2-dev",
       elixir: "~> 0.14.0",
       escript: escript,
       elixirc_options: options(Mix.env),
