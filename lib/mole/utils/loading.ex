@@ -8,7 +8,6 @@ defmodule Mole.Loading do
       _ -> :done
     after duration -> :done
     end
-    IO.puts "dies #{inspect(pid)} die"
     send pid, "It's over"
     IO.puts "#{@clear_line}#{message} done."
     :done
