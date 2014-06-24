@@ -1,0 +1,8 @@
+2014-06-23 0.0.2
+
+* can log multiple services in the same environment
+
+2014-06-21 0.0.1
+
+* can log a service
+* list environments in the config file
