@@ -25,7 +25,7 @@ defmodule Mole.Commands.Log do
     log_services(args, String.split(args[:services], ","))
   end
 
-  defp log_services(args, []), do: :done
+  defp log_services(_args, []), do: :done
   defp log_services(args, [service|tail]) do
     args
     |> Map.put(:service, service)
