@@ -11,6 +11,10 @@ defmodule Mole.Config do
     System.get_env("MOLE_CONFIG_FILE") |> config_file
   end
 
+  def version(config) do
+    config["version"]
+  end
+
   def environments(config) do
     config["environments"]
   end

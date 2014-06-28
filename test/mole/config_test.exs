@@ -1,7 +1,7 @@
 defmodule ConfigTest do
   use ExUnit.Case
 
-  import Mole.Config
+  alias Mole.Config
 
   setup do
     on_exit fn ->
@@ -16,25 +16,25 @@ defmodule ConfigTest do
   end
 
   test "errors when the file does no exists" do
-    { :error, :enoent } = load "/does/not/exist"
+    { :error, :enoent } = Config.load "/does/not/exist"
   end
 
   test "errors when the file is no valid json" do
-    { :error, :invalid } = load malformed_file
+    { :error, :invalid } = Config.load malformed_file
   end
 
   # load
   test "loads the default config file" do
     System.put_env("MOLE_CONFIG_FILE", regular_file)
 
-    { :ok, config } = load
+    { :ok, config } = Config.load
 
     assert config["global"] == %{ "user" => "drouchy", "ssh_dir" => "/var/tmp/mole_ssh" }
   end
 
   # config_file
   test "by default gives the .mole/config.json in the home directory" do
-    file_name = config_file
+    file_name = Config.config_file
 
     assert file_name == "#{System.get_env("HOME")}/.mole/config.json"
   end
@@ -42,7 +42,7 @@ defmodule ConfigTest do
   test "by default gives the .mole/config.json in the home directory if the env is empty" do
     System.put_env("MOLE_CONFIG_FILE", "")
 
-    file_name = config_file
+    file_name = Config.config_file
 
     assert file_name == "#{System.get_env("HOME")}/.mole/config.json"
   end
@@ -50,35 +50,40 @@ defmodule ConfigTest do
   test "gives the config file set via env variable" do
     System.put_env("MOLE_CONFIG_FILE", "/var/tmp/config")
 
-    file_name = config_file
+    file_name = Config.config_file
 
     assert file_name == "/var/tmp/config"
   end
 
+  # version/0
+  test "gives the version of the config file" do
+    assert Config.version(regular_config) == 1
+  end
+
   # environments/1
   test "gives the available environments" do
-    environments = environments(regular_config)
+    environments = Config.environments(regular_config)
 
     assert names(environments) == ["staging", "production"]
   end
 
   # environment/2
   test "gives the environment" do
-    environment = environment(regular_config, "staging")
+    environment = Config.environment(regular_config, "staging")
 
     assert environment["name"] == "staging"
   end
 
   # services/2
   test "gives the services on the environment" do
-    services = services(regular_config, "staging")
+    services = Config.services(regular_config, "staging")
 
     assert names(services) == ["log_service", "db"]
   end
 
   # service/3
   test "gives a specific service on a specific environment" do
-    service = service(regular_config, "staging", "db")
+    service = Config.service(regular_config, "staging", "db")
 
     assert service == %{ "name" => "db", "hosts" => ["db1"] }
   end
@@ -87,7 +92,7 @@ defmodule ConfigTest do
   defp malformed_file, do: "test/fixtures/config/malformed.json"
 
   defp regular_config  do
-    { :ok, config } = load regular_file
+    { :ok, config } = Config.load regular_file
     config
   end
 
