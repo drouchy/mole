@@ -1,9 +1,11 @@
 defmodule Mole.Workers.SshConnectionWorker do
   use GenServer
+  require Lager
 
-  import Mole.SshConnection
+  alias Mole.SshConnection
 
   def start_link() do
+    Lager.debug "stating ssh connection link"
     :gen_server.start_link({:local, :mole_ssh}, __MODULE__, [], [])
   end
 
@@ -11,16 +13,19 @@ defmodule Mole.Workers.SshConnectionWorker do
     {:ok, []}
   end
 
-  def handle_call({:execute, destination, command, callback}, _from, state) do
-    host = destination[:host]
-    port = destination[:port]
-    {connection, channel} = connect(to_char_list(host), port, options)
-    name = "#{host}:#{port}"
-    pid = spawn(Mole.SshConnection, :execute_command, [{connection, channel}, to_char_list(command), callback])
-    { :reply, {:ok, name}, [%{name: name, pid: pid, host: host, port: port, ssh: {connection, channel}} | state] }
+  def handle_call(_message, _from, state) do
   end
 
-  def handle_cast(_msg, _state) do
+  def handle_cast({:execute, destination, command, callback}, state) do
+    Lager.debug "handle_cast #{inspect(destination)}"
+    host = destination[:host]
+    port = destination[:port]
+    Lager.debug "connecting"
+    {connection, channel} = SshConnection.connect(to_char_list(host), port, options)
+    name = "#{host}:#{port}"
+    Lager.debug "executing command"
+    pid = spawn(Mole.SshConnection, :execute_command, [{connection, channel}, to_char_list(command), callback])
+    { :noreply, [%{name: name, pid: pid, host: host, port: port, ssh: {connection, channel}} | state] }
   end
 
   def handle_info(_msg, _state) do
