@@ -12,7 +12,7 @@
         {
           "name" : "log_service",
           "hosts" : ["log1"],
-          "logs" : ["/var/log/logstash/agent.log"]
+          "logs" : [{"file": "/var/log/logstash/agent.log"}]
         },
         {
           "name" : "db",
@@ -27,7 +27,7 @@
         {
           "name" : "log_service",
           "hosts" : ["log1", "log2"],
-          "logs" : ["/var/log/logstash/agent.log"]
+          "logs" : [{"file": "/var/log/logstash/agent.log"}]
         }
       ]
     }

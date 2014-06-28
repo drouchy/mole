@@ -1,6 +1,8 @@
 defmodule Mole.ServiceLogger do
   require Lager
 
+  alias Mole.LabelGenerator
+
   def log_service(args) do
     Lager.info "log service: #{inspect(args)}"
     service     = :gen_server.call :mole_config, {:service, args[:environment], args[:service]}
@@ -17,6 +19,7 @@ defmodule Mole.ServiceLogger do
     |> enrich_destination_with_logs(service["logs"])
     |> Enum.with_index
     |> Enum.map(fn({destination,index}) -> Map.put(destination, :color, Mole.ANSI.color(index)) end)
+    |> Enum.map(fn(destination) -> Map.put(destination, :text, LabelGenerator.generate_label_for(service, destination)) end)
     |> Enum.each(&launch_connection/1)
   end
 
@@ -41,7 +44,7 @@ defmodule Mole.ServiceLogger do
 
   defp callback(_, []), do: :done
   defp callback(destination, [line|tail]) do
-    :gen_server.cast :mole_console, {:write, %{color: destination[:color], text: destination[:host]}, line }
+    :gen_server.cast :mole_console, {:write, %{color: destination[:color], text: destination[:text]}, line }
     callback(destination, tail)
   end
 

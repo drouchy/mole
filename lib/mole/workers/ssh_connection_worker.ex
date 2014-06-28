@@ -13,7 +13,7 @@ defmodule Mole.Workers.SshConnectionWorker do
     {:ok, []}
   end
 
-  def handle_call(_message, _from, state) do
+  def handle_call(_message, _from, _state) do
   end
 
   def handle_cast({:execute, destination, command, callback}, state) do
