@@ -10,6 +10,7 @@ defmodule Mole.Process.Mixfile do
       elixirc_options: options(Mix.env),
       elixirc_paths: src_paths(Mix.env),
       deps_path: "../../deps",
+      lockfile: "../../mix.lock",
       deps: deps(Mix.env),
       lager_level: lager_level(Mix.env)
     ]

@@ -2,7 +2,7 @@ defmodule Mole.Workers.LoggerWorker do
   use GenServer
 
   @lagger_formatter [:time, ' [', :severity, '] ', :message, '\n']
-  @lager_level Mole.Mixfile.project[:lager_level]
+  @lager_level Mole.Process.Mixfile.project[:lager_level]
 
   def start_link() do
     :gen_server.start_link({:local, :application_logger}, __MODULE__, [], [])
