@@ -64,7 +64,7 @@ defmodule Mole.Process.Mixfile do
 
   defp deps(_) do
     [
-      { :jazz,    github: "meh/jazz"    },
+      {:jazz, "0.1.2"} ,
       { :exlager, github: "khia/exlager"}
     ]
   end
