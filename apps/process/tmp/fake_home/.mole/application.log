@@ -1,0 +1,15 @@
+2014-06-22 17:50:50.878 [debug] <0.63.0>@lager_handler_watcher:94 Lager installed handler {lager_file_backend,
+                            <<"/Users/drouchy/Developer/elixir/mole/tmp/fake_home/.mole/application.log">>} into lager_event
+2014-06-22 17:50:50.878 [debug] <0.65.0>@lager_handler_watcher:94 Lager installed handler error_logger_lager_h into error_logger
+2014-06-22 17:50:50.889 [debug] <0.50.0> Supervisor gr_param_sup started gr_param:start_link(gr_lager_default_tracer_params) at pid <0.67.0>
+2014-06-22 17:50:50.889 [debug] <0.49.0> Supervisor gr_counter_sup started gr_counter:start_link(gr_lager_default_tracer_counters) at pid <0.68.0>
+2014-06-22 17:50:50.889 [debug] <0.51.0> Supervisor gr_manager_sup started gr_manager:start_link(gr_lager_default_tracer_params_mgr, gr_lager_default_tracer_params, []) at pid <0.69.0>
+2014-06-22 17:50:50.889 [debug] <0.51.0> Supervisor gr_manager_sup started gr_manager:start_link(gr_lager_default_tracer_counters_mgr, gr_lager_default_tracer_counters, [{input,0},{filter,0},{output,0}]) at pid <0.70.0>
+2014-06-22 17:50:51.369 [debug] <0.59.0>@lager_handler_watcher:94 Lager installed handler lager_backend_throttle into lager_event
+2014-06-22 17:50:51.446 [info] <0.7.0> Application lager started on node nonode@nohost
+2014-06-22 17:50:51.446 [info] <0.7.0> Application exlager started on node nonode@nohost
+2014-06-22 17:50:51.446 [debug] <0.40.0> Supervisor {<0.40.0>,'Elixir.Mole.Supervisors.MainSupervisor'} started 'Elixir.Mole.Workers.LoggerWorker':start_link() at pid <0.42.0>
+2014-06-22 17:50:51.447 [debug] <0.40.0> Supervisor {<0.40.0>,'Elixir.Mole.Supervisors.MainSupervisor'} started 'Elixir.Mole.Workers.GateKeeper':start_link() at pid <0.73.0>
+2014-06-22 17:50:51.448 [debug] <0.40.0> Supervisor {<0.40.0>,'Elixir.Mole.Supervisors.MainSupervisor'} started 'Elixir.Mole.Workers.SshConnectionWorker':start_link() at pid <0.74.0>
+2014-06-22 17:50:51.454 [debug] <0.40.0> Supervisor {<0.40.0>,'Elixir.Mole.Supervisors.MainSupervisor'} started 'Elixir.Mole.Workers.ConfigWorker':start_link(<<"/Users/drouchy/Developer/elixir/mole/tmp/fake_home/.mole/config.json">>) at pid <0.75.0>
+2014-06-22 17:50:51.454 [info] <0.7.0> Application mole started on node nonode@nohost

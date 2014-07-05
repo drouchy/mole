@@ -1,0 +1,34 @@
+{
+  "global" : {
+    "user" : "drouchy",
+    "ssh_dir" : "/var/tmp/mole_ssh"
+  },
+  "environments" : [
+    {
+      "name" : "staging",
+      "gateway" : "host1.example.com",
+      "services" : [
+        {
+          "name" : "log_service",
+          "hosts" : ["log1"],
+          "logs" : ["/var/log/logstash/agent.log"]
+        },
+        {
+          "name" : "db",
+          "hosts" : ["db1"]
+        }
+      ]
+    },
+    {
+      "name" : "production",
+      "gateway" : "host2.example.com",
+      "services" : [
+        {
+          "name" : "log_service",
+          "hosts" : ["log1", "log2"],
+          "logs" : ["/var/log/logstash/agent.log"]
+        }
+      ]
+    }
+  ]
+}
